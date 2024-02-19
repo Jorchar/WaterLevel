@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "469219461276",
+    "project_id": "waterplant-c4ae8",
+    "storage_bucket": "waterplant-c4ae8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469219461276:android:4d5b563ef4b20a9ede4559",
+        "android_client_info": {
+          "package_name": "com.example.waterlevel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6GxURZxkWLtkYg7Ldy8C4ew4-GYfvuHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
