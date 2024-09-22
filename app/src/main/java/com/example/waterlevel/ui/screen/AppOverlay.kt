@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -17,7 +16,6 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.waterlevel.navigation.AppNavHost
 import com.example.waterlevel.navigation.TopLevelDestination
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppOverlay(
     appState: AppState = rememberAppState()

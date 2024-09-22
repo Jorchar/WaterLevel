@@ -14,7 +14,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -28,11 +27,11 @@ import com.google.accompanist.permissions.shouldShowRationale
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun AddStationScreen(){
+fun AddStationScreen(onBarcodeScanner: (String) -> Unit){
     val cameraPermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
 
     if (cameraPermissionState.status.isGranted) {
-        AddStationDetails()
+        AddStationDetails(onBarcodeScanner)
     } else if (cameraPermissionState.status.shouldShowRationale) {
         Text("Camera Permission permanently denied")
     } else {
@@ -44,9 +43,9 @@ fun AddStationScreen(){
 }
 
 @Composable
-fun AddStationDetails() {
+fun AddStationDetails(onBarcodeScanner: (String) -> Unit) {
     val localContext = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(localContext)
     }
@@ -67,14 +66,15 @@ fun AddStationDetails() {
                 val imageAnalysis = ImageAnalysis.Builder().build()
                 imageAnalysis.setAnalyzer(
                     ContextCompat.getMainExecutor(context),
-                        BarcodeAnalyzer(context)
+                        BarcodeAnalyzer(onBarcodeScanner)
                 )
 
                 runCatching {
                     cameraProviderFuture.get().bindToLifecycle(
                         lifecycleOwner,
                         selector,
-                        preview
+                        preview,
+                        imageAnalysis
                     )
                 }.onFailure {
                     Log.e("CAMERA", "Camera bind error ${it.localizedMessage}", it)
@@ -89,6 +89,6 @@ fun AddStationDetails() {
 @Composable
 fun AddStationPreview() {
     WaterLevelTheme {
-        AddStationDetails()
+        AddStationDetails(onBarcodeScanner = {})
     }
 }

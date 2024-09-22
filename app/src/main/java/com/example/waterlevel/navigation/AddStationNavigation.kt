@@ -15,6 +15,7 @@ fun NavController.navigateToAddStation(navOptions: NavOptions? = null){
 }
 
 fun NavGraphBuilder.addStationGraph(
+    onBarcodeScanned: (String) -> Unit,
     nestedGraph: NavGraphBuilder.() -> Unit
 ){
     navigation(
@@ -22,7 +23,7 @@ fun NavGraphBuilder.addStationGraph(
         startDestination = addStationNavigationRoute
     ){
         composable(route = addStationNavigationRoute){
-            AddStationScreen()
+            AddStationScreen(onBarcodeScanner = onBarcodeScanned)
         }
         nestedGraph()
     }

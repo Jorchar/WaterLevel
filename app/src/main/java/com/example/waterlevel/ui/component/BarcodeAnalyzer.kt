@@ -1,8 +1,8 @@
 package com.example.waterlevel.ui.component
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.widget.Toast
+import androidx.annotation.OptIn
+import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -10,7 +10,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
-class BarcodeAnalyzer(private val context: Context) : ImageAnalysis.Analyzer {
+class BarcodeAnalyzer(private val onBarcodeScanned: (String) -> Unit) : ImageAnalysis.Analyzer {
 
     private val options = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
@@ -18,7 +18,8 @@ class BarcodeAnalyzer(private val context: Context) : ImageAnalysis.Analyzer {
 
     private val scanner = BarcodeScanning.getClient(options)
 
-    @SuppressLint("UnsafeOptInUsageError")
+
+    @OptIn(ExperimentalGetImage::class)
     override fun analyze(imageProxy: ImageProxy) {
         imageProxy.image
             ?.let { image ->
@@ -30,7 +31,7 @@ class BarcodeAnalyzer(private val context: Context) : ImageAnalysis.Analyzer {
                     barcode?.takeIf { it.isNotEmpty() }
                         ?.mapNotNull { it.rawValue }
                         ?.joinToString(",")
-                        ?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+                        ?.let { onBarcodeScanned(it) }
                 }.addOnCompleteListener {
                     imageProxy.close()
                 }

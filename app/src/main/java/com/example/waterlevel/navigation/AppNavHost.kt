@@ -15,7 +15,10 @@ fun AppNavHost(
             nestedGraph = {}
         )
         addStationGraph(
-            nestedGraph = {}
+            onBarcodeScanned = {navController.navigateToNewStationConfig(it)},
+            nestedGraph = {
+
+            }
         )
         settingsGraph(
             nestedGraph = {}

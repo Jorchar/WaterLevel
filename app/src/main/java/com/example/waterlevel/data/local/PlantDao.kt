@@ -11,6 +11,9 @@ interface PlantDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPlant(plants: List<Plant>)
 
+    @Query("SELECT * FROM plants")
+    fun getAllPlants(): List<Plant>
+
     @Query("SELECT * FROM plants WHERE id LIKE :plantId")
     fun getPlantById(plantId: Int): Plant
 
