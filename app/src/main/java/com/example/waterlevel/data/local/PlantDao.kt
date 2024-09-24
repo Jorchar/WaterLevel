@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.waterlevel.data.model.Plant
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlantDao {
@@ -12,11 +13,8 @@ interface PlantDao {
     fun insertPlant(plants: List<Plant>)
 
     @Query("SELECT * FROM plants")
-    fun getAllPlants(): List<Plant>
+    fun getAllPlants(): Flow<List<Plant>>
 
     @Query("SELECT * FROM plants WHERE id LIKE :plantId")
     fun getPlantById(plantId: Int): Plant
-
-    @Query("DELETE FROM plants")
-    fun deleteAllPlants()
 }

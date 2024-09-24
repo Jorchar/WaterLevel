@@ -62,11 +62,20 @@ dependencies {
     implementation ("com.google.mlkit:barcode-scanning:17.3.0")
 
     //Dependency Injection
-    implementation("com.google.dagger:hilt-android:2.48.1")
+    implementation("com.google.dagger:hilt-android:2.49")
     ksp("com.google.dagger:hilt-android-compiler:2.48.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    //OkHttpClient
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //Retrofit2
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+
+    //Gson
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //Paging
     implementation ("androidx.paging:paging-compose:3.3.2")

@@ -3,30 +3,27 @@ package com.example.waterlevel.ui.screen
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.waterlevel.data.model.previewPlant
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.waterlevel.data.model.Plant
 import com.example.waterlevel.ui.component.PlantItem
 import com.example.waterlevel.ui.theme.WaterLevelTheme
 
 @Composable
-fun StationsListScreen (){
-    StationsListDetails()
+fun StationsListScreen (
+    viewModel: StationsListViewModel = hiltViewModel(),
+){
+    val plants by viewModel.plants.collectAsState(initial = emptyList())
+    StationsListDetails(plants = plants)
 }
 
 @Composable
-fun StationsListDetails() {
+fun StationsListDetails(plants: List<Plant>) {
     LazyVerticalGrid(columns = GridCells.Fixed(1)) {
-        items(
-            count = 7,
-            key = null
-        ){
-            PlantItem(previewPlant)
-            PlantItem(previewPlant)
-            PlantItem(previewPlant)
-            PlantItem(previewPlant)
-            PlantItem(previewPlant)
-            PlantItem(previewPlant)
-            PlantItem(previewPlant)
+        items(plants.size) { index ->
+            PlantItem(plant = plants[index])
         }
     }
 }
