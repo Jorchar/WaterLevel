@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WaterLevel</string>
+    <string name="add_plant">Add new plant</string>
 </resources>
