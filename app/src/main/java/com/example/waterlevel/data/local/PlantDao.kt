@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PlantDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPlant(plants: List<Plant>)
+    fun insertPlants(plants: List<Plant>)
 
     @Query("SELECT * FROM plants")
     fun getAllPlants(): Flow<List<Plant>>

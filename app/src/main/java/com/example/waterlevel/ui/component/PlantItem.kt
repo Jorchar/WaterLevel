@@ -1,6 +1,5 @@
 package com.example.waterlevel.ui.component
 
-import android.util.Base64
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,12 +14,11 @@ fun PlantItem(
     plant: Plant,
     //onClickAction: OnClickAction
 ) {
-    val imageBytes: ByteArray = Base64.decode(plant.photo, Base64.DEFAULT)
     ListItem(
         headlineContent = { Text(text = plant.name) },
         leadingContent = {
             GlideImage(
-                model = imageBytes,
+                model = plant.photo,
                 contentDescription = plant.name,
                 contentScale = ContentScale.Fit
             )

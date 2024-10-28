@@ -1,13 +1,18 @@
 package com.example.waterlevel.ui.screen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.waterlevel.data.model.Plant
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.waterlevel.ui.component.PlantItem
 import com.example.waterlevel.ui.theme.WaterLevelTheme
 
@@ -15,23 +20,37 @@ import com.example.waterlevel.ui.theme.WaterLevelTheme
 fun StationsListScreen (
     viewModel: StationsListViewModel = hiltViewModel(),
 ){
-    val plants by viewModel.plants.collectAsState(initial = emptyList())
-    StationsListDetails(plants = plants)
+    val plantsUiState: PlantsUiState by viewModel.plantsUiState.collectAsStateWithLifecycle()
+    StationsListDetails(plantsUiState = plantsUiState)
 }
 
 @Composable
-fun StationsListDetails(plants: List<Plant>) {
-    LazyVerticalGrid(columns = GridCells.Fixed(1)) {
-        items(plants.size) { index ->
-            PlantItem(plant = plants[index])
+fun StationsListDetails(plantsUiState: PlantsUiState) {
+        when (plantsUiState) {
+            is PlantsUiState.Loading -> {
+                Column (
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    CircularProgressIndicator()
+                }
+            }
+            is PlantsUiState.Success -> {
+                LazyVerticalGrid(columns = GridCells.Fixed(1)) {
+                    items(plantsUiState.plants.size) { index ->
+                        PlantItem(plant = plantsUiState.plants[index])
+                    }
+                }
+            }
         }
     }
-}
 
 @Preview(showBackground = true)
 @Composable
 fun StationsListPreview() {
     WaterLevelTheme {
         AppOverlay()
+        StationsListDetails(plantsUiState = PlantsUiState.Loading)
     }
 }
